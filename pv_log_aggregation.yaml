@@ -1,0 +1,114 @@
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: grafana-pv
+#   labels:
+#     app: grafana
+#   annotations:
+#     volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+# spec:
+#   storageClassName: local-path
+#   accessModes:
+#     - ReadWriteOnce
+#   capacity:
+#     storage: 50Gi
+#   persistentVolumeReclaimPolicy: Retain
+#   hostPath:
+#     path: "/home/ashith/helm-k8s-grafana-loki/volume-pv/grafana"
+#   nodeAffinity:
+#     required:
+#       nodeSelectorTerms:
+#         - matchExpressions:
+#             - key: node.kubernetes.io/instance-type
+#               operator: In
+#               values:
+#                 - k3s
+
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: influxdb-pv
+  labels:
+    app: influxdb
+  annotations:
+    volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+spec:
+  claimRef:
+    name: influxdb
+    namespace: log-aggregation
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 50Gi
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/home/ashith/helm-k8s-grafana-loki/volume-pv/influxdb"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: node.kubernetes.io/instance-type
+              operator: In
+              values:
+                - k3s
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: influxdb-backups-pv
+  labels:
+    app.kubernetes.io/component: influxdb
+    app.kubernetes.io/instance: influxdb
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: influxdb
+  #  app.kubernetes.io/version: 2.7.5
+  #  helm.sh/chart: influxdb-5.17.1
+  annotations:
+    meta.helm.sh/release-name: influxdb
+    meta.helm.sh/release-namespace: log-aggregation
+    volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+spec:
+  claimRef:
+    name: influxdb-backups
+    namespace: log-aggregation
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 50Gi
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/home/ashith/helm-k8s-grafana-loki/volume-pv/influxdb"
+
+
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: grafana-pv
+#   labels:
+#     app: grafana
+#   annotations:
+#     volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+# spec:
+#   storageClassName: local-path
+#   accessModes:
+#     - ReadWriteOnce
+#   capacity:
+#     storage: 50Gi
+#   persistentVolumeReclaimPolicy: Retain
+#   hostPath:
+#     path: "/home/ashith/helm-k8s-grafana-loki/volume-pv/grafana"
+#   nodeAffinity:
+#     required:
+#       nodeSelectorTerms:
+#         - matchExpressions:
+#             - key: node.kubernetes.io/instance-type
+#               operator: In
+#               values:
+#                 - k3s
+
+
